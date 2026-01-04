@@ -7,7 +7,6 @@ dotenv.config(); // load DATABASE_URL from .env
 // Create a single shared connection pool
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false } // required for Neon
 });
 
 // Optional: simple check to verify connection at startup
