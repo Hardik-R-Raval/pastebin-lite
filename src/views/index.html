@@ -1,0 +1,61 @@
+<!-- src/views/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Paste</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 150px; }
+    input { width: 100%; margin-top: 5px; margin-bottom: 15px; padding: 5px; }
+    button { padding: 10px 15px; }
+    .result { margin-top: 20px; padding: 10px; background: #f0f0f0; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>Create a Paste</h1>
+  <form id="pasteForm">
+    <label>Content:</label><br />
+    <textarea name="content" required></textarea><br />
+
+    <label>TTL (seconds, optional):</label><br />
+    <input type="number" name="ttl_seconds" min="1" /><br />
+
+    <label>Max Views (optional):</label><br />
+    <input type="number" name="max_views" min="1" /><br />
+
+    <button type="submit">Create Paste</button>
+  </form>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    const form = document.getElementById('pasteForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const payload = {};
+      formData.forEach((value, key) => { 
+        if (value) payload[key] = isNaN(value) ? value : Number(value);
+      });
+
+      try {
+        const res = await fetch('/api/pastes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error creating paste');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<strong>Paste created!</strong> Link: <a href="${data.url}" target="_blank">${data.url}</a>`;
+      } catch (err) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<strong>Error:</strong> ${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

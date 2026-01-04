@@ -1,0 +1,42 @@
+<!-- src/views/paste.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paste Content</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    pre { background: #f0f0f0; padding: 10px; }
+    .meta { margin-top: 10px; font-size: 0.9em; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Paste</h1>
+  <pre id="pasteContent"></pre>
+  <div class="meta" id="pasteMeta"></div>
+
+  <script>
+    const pathParts = window.location.pathname.split('/');
+    const pasteId = pathParts[2];
+
+    async function loadPaste() {
+      try {
+        const res = await fetch(`/api/pastes/${pasteId}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Paste not found');
+
+        document.getElementById('pasteContent').textContent = data.content;
+
+        let meta = '';
+        if (data.remaining_views !== null) meta += `Remaining views: ${data.remaining_views} `;
+        if (data.expires_at) meta += `Expires at: ${new Date(data.expires_at).toLocaleString()}`;
+        document.getElementById('pasteMeta').textContent = meta;
+      } catch (err) {
+        document.body.innerHTML = `<h1>Error: ${err.message}</h1>`;
+      }
+    }
+
+    loadPaste();
+  </script>
+</body>
+</html>

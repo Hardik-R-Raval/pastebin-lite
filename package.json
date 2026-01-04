@@ -1,0 +1,32 @@
+{
+  "name": "pastebin-lite",
+  "version": "1.0.0",
+  "description": "Pastebin-like web service built with Node.js, Express, and PostgreSQL. Users can create text pastes and share them via a link, with optional expiration based on time or number of views. The application is designed to behave correctly under concurrent access and automated testing.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hardik-R-Raval/pastebin-lite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Hardik-R-Raval/pastebin-lite/issues"
+  },
+  "homepage": "https://github.com/Hardik-R-Raval/pastebin-lite#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "nanoid": "^5.1.6",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
