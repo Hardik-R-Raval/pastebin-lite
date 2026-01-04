@@ -91,11 +91,15 @@ Unavailable pastes (missing, expired, or view-limit exceeded) return 404.
 - Returns HTTP 404 if the paste is unavailable
 - Paste content is rendered safely
 
+---
+
 ### Frontend Usage
 - Visit / to create a new paste using a simple web form
 - After creation, a shareable link is displayed
 - Visit /p/:id to view the paste in the browser
 UI styling is intentionally minimal; functionality is prioritized.
+
+---
 
 ### Deterministic Time Support
 For automated testing, deterministic expiry logic is supported.
@@ -111,12 +115,16 @@ x-test-now-ms: <milliseconds since epoch>
 is treated as the current time for expiry logic only.
 If the header is absent, real system time is used.
 
+---
+
 ### Persistence Layer
 The application uses PostgreSQL as the **persistent** layer.
 - All paste data is stored in a `pastes` table
 - View count and expiry checks are handled at the database level
 - Atomic transactions are used to ensure correctness under concurrent access
 - No in-memory storage is used
+
+---
 
 ### Running Locally
 **Prerequisites**
@@ -149,9 +157,10 @@ The app will be available at:
 http://localhost:3000
 ```
 
+---
+
 ### Notes on Design Decisions
 - Express + PostgreSQL were chosen to keep the architecture simple and predictable
 - Server-side logic avoids global mutable state
 - Database transactions are used to prevent race conditions
 - Database transactions are used to prevent race conditions
-
